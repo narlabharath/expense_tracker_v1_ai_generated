@@ -24,12 +24,14 @@ def bulk_upload_expenses(csv_file_path: str) -> list:
             amount = float(row["amount"])
             category = row["category"]
             if utils.validate_expense_data(date, amount, category):
-                expenses.append(Expense(date, amount, category))
+                expense = Expense(date, amount, category)
+                expenses.append(expense)
+                _expenses_store.append(expense)  # <-- Add this line
         except Exception:
             continue  # Skip invalid rows
     if not expenses and rows:
         raise ValueError("No valid expenses found in file")
-    return expenses# Core logic (add, bulk upload, etc.)
+    return expenses
 
 def get_summary():
     """
